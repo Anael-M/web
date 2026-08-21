@@ -1,10 +1,14 @@
-<?php
+﻿<?php
 
 include("conexao.php");
 
-$sql = "SELECT * FROM usuarios";
+$sql = "SELECT * FROM usuarios ORDER BY id";
 
-$resultado = mysqli_query($conexao,$sql);
+$resultado = pg_query($conn, $sql);
+
+if (!$resultado) {
+    die("Erro ao consultar os usuários.");
+}
 
 ?>
 
@@ -15,6 +19,7 @@ $resultado = mysqli_query($conexao,$sql);
 <title>Usuários Cadastrados</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <div class="container">
@@ -33,15 +38,15 @@ $resultado = mysqli_query($conexao,$sql);
 
 <?php
 
-while($usuario = mysqli_fetch_assoc($resultado)){
+while ($usuario = pg_fetch_assoc($resultado)) {
 
-echo "<tr>";
-echo "<td>".$usuario['id']."</td>";
-echo "<td>".$usuario['nome']."</td>";
-echo "<td>".$usuario['email']."</td>";
-echo "<td>".$usuario['data_cadastro']."</td>";
-echo "<td><a href='excluir.php?id=".$usuario['id']."'>Excluir</a></td>";
-echo "</tr>";
+    echo "<tr>";
+    echo "<td>" . $usuario['id'] . "</td>";
+    echo "<td>" . htmlspecialchars($usuario['nome']) . "</td>";
+    echo "<td>" . htmlspecialchars($usuario['email']) . "</td>";
+    echo "<td>" . $usuario['data_cadastro'] . "</td>";
+    echo "<td><a href='excluir.php?id=" . $usuario['id'] . "'>Excluir</a></td>";
+    echo "</tr>";
 
 }
 
