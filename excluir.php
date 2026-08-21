@@ -1,13 +1,22 @@
-<?php
+﻿<?php
 
 include("conexao.php");
 
-$id = $_GET['id'];
+$id = $_GET['id'] ?? null;
 
-$sql = "DELETE FROM usuarios WHERE id = $id";
+if (!$id) {
+    die("ID do usuário não informado.");
+}
 
-mysqli_query($conexao,$sql);
+$sql = "DELETE FROM usuarios WHERE id = $1";
 
-header("Location:listar.php");
+$resultado = pg_query_params($conn, $sql, [$id]);
+
+if (!$resultado) {
+    die("Erro ao excluir usuário.");
+}
+
+header("Location: listar.php");
+exit;
 
 ?>
