@@ -1,19 +1,17 @@
 <?php
 
-$host = "localhost";
-$usuario = "root";
-$senha = "";
-$banco = "cadastro_web";
+$host = getenv("DB_HOST");
+$port = getenv("DB_PORT");
+$banco = getenv("DB_NAME");
+$usuario = getenv("DB_USER");
+$senha = getenv("DB_PASSWORD");
 
-$conexao = mysqli_connect(
-    $host,
-    $usuario,
-    $senha,
-    $banco
+$conn = pg_connect(
+    "host=$host port=$port dbname=$banco user=$usuario password=$senha"
 );
 
-if(!$conexao){
-    die("Erro de conexão: " . mysqli_connect_error());
+if (!$conn) {
+    die("Erro de conexão com o banco de dados.");
 }
 
 ?>
