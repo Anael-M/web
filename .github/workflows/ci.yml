@@ -1,4 +1,4 @@
-﻿name: CI - Testes Automatizados
+﻿name: CI/CD - Testes e Deploy
 
 on:
   push:
@@ -25,3 +25,12 @@ jobs:
 
       - name: Executar testes com Jest
         run: npm test
+
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Disparar Deploy Automático no Render
+        run: curl -f -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
