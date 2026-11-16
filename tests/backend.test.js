@@ -1,14 +1,13 @@
 ﻿const fs = require("fs");
 const path = require("path");
 
-// Funções unitárias de regra de negócio do cadastro
 function validarEmail(email) {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(String(email).toLowerCase());
 }
 
-function validarSenha(senha) {
-  return typeof senha === "string" && senha.length >= 6;
+function validarNome(nome) {
+  return typeof nome === "string" && nome.trim().length >= 2;
 }
 
 function sanitizarEntrada(texto) {
@@ -16,10 +15,13 @@ function sanitizarEntrada(texto) {
 }
 
 describe("Testes Unitários de Backend e Regras de Negócio", () => {
-  test("deve conter processamento PHP válido no index.php", () => {
-    const phpCode = fs.readFileSync(path.join(__dirname, "../index.php"), "utf8");
-    expect(phpCode).toContain("<?php");
-    expect(phpCode).toMatch(/\$_POST|\$_SERVER/);
+  test("deve conter processamento PHP válido nos endpoints salvar.php e listar.php", () => {
+    const salvarPhp = fs.readFileSync(path.join(__dirname, "../salvar.php"), "utf8");
+    const listarPhp = fs.readFileSync(path.join(__dirname, "../listar.php"), "utf8");
+
+    expect(salvarPhp).toContain("<?php");
+    expect(salvarPhp).toMatch(/\$_POST/);
+    expect(listarPhp).toContain("<?php");
   });
 
   test("deve validar formatos de e-mail corretamente", () => {
@@ -28,9 +30,10 @@ describe("Testes Unitários de Backend e Regras de Negócio", () => {
     expect(validarEmail("")).toBe(false);
   });
 
-  test("deve exigir senha com no mínimo 6 caracteres", () => {
-    expect(validarSenha("123456")).toBe(true);
-    expect(validarSenha("123")).toBe(false);
+  test("deve validar nome obrigatório com no mínimo 2 caracteres", () => {
+    expect(validarNome("Anael Marcos")).toBe(true);
+    expect(validarNome("A")).toBe(false);
+    expect(validarNome("   ")).toBe(false);
   });
 
   test("deve sanitizar caracteres perigosos contra XSS", () => {
