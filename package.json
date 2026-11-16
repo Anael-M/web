@@ -1,0 +1,26 @@
+{
+  "name": "cadastro-web",
+  "version": "1.0.0",
+  "description": "aplicação de web",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anael-M/web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Anael-M/web/issues"
+  },
+  "homepage": "https://github.com/Anael-M/web#readme",
+  "devDependencies": {
+    "jest": "^30.5.2",
+    "jest-environment-jsdom": "^30.5.2",
+    "jsdom": "^31.0.1"
+  }
+}
