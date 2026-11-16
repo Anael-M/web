@@ -1,4 +1,5 @@
-﻿<?php
+﻿
+<?php
 
 $host = getenv("DB_HOST");
 $port = getenv("DB_PORT");
@@ -25,4 +26,18 @@ foreach ($variaveis as $nome => $valor) {
 if (!empty($ausentes)) {
     error_log("Variáveis de ambiente ausentes: " . implode(", ", $ausentes));
     die("Configuração do banco incompleta.");
+}
+
+$conn = pg_connect(
+    "host=" . $host .
+    " port=" . $port .
+    " dbname=" . $banco .
+    " user=" . $usuario .
+    " password=" . $senha .
+    " connect_timeout=10"
+);
+
+if (!$conn) {
+    error_log("Falha ao conectar ao PostgreSQL.");
+    die("Não foi possível conectar ao banco de dados.");
 }
