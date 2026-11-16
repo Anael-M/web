@@ -1,2 +1,8 @@
 ﻿node_modules/
 coverage/
+.vscode/
+*.exe
+*.msi
+desktop.ini
+Untitled-*
+git status.*
